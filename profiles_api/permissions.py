@@ -10,3 +10,14 @@ class UpdateOwnProfile(permissions.BasePermission):
             return True
 
         return obj.id == request.user.id
+
+
+class UpdateOwnStatus(permissions.BasePermission):
+    """Ensure that the status is updated by the owner only"""
+
+    def has_object_permission(self, request, view, obj):
+        """Check if the user as the permission"""
+        if request.method in permissions.SAFE_METHODS:
+            return True
+
+        return obj.user_profile.id == request.user.id
